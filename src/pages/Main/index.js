@@ -13,6 +13,7 @@ import {
 
 import Login from '../Login';
 import App from '../UserPanel';
+import SignUp from '../SignUp';
 
 function PrivateRoute({children, ...rest}){
 	let location = useLocation();
@@ -43,9 +44,12 @@ function Main() {
 			<Route exact path="/login">
 				<Login/>
 			</Route>
-			<PrivateRoute path = "/main">
+      <Route exact path = "/signup">
+        <SignUp/>
+      </Route>
+			<Route path = "/main">
 				<App/>
-			</PrivateRoute>
+			</Route>
 		</Switch>
 		</Router>
   );
