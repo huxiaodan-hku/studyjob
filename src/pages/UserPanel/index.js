@@ -4,10 +4,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-
+import GroupList from '../../components/GroupList';
 import List from '@material-ui/core/List';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -100,10 +97,6 @@ const useStyles = makeStyles(theme => ({
 	fixedHeight: {
 		height: 240
 	},
-  icon:{
-    height:25,
-    width:25
-  }
 }));
 function UserPanel() {
 	const userInfo = useLoadUserInfo();
@@ -144,34 +137,7 @@ function UserPanel() {
 					<ChevronLeftIcon/>
 				</IconButton>
 			</div>
-			<List >
-				<ListItem button="button">
-					<ListItemIcon>
-					</ListItemIcon>
-					<ListItemText primary="Dashboard"/>
-				</ListItem>
-				<ListItem button="button">
-					<ListItemIcon>
-            <img className = {classes.icon} src={placeholder}/>
-					</ListItemIcon>
-					<ListItemText primary="Orders"/>
-				</ListItem>
-				<ListItem button="button">
-					<ListItemIcon>
-					</ListItemIcon>
-					<ListItemText primary="Customers"/>
-				</ListItem>
-				<ListItem button="button">
-					<ListItemIcon>
-					</ListItemIcon>
-					<ListItemText primary="Reports"/>
-				</ListItem>
-				<ListItem button="button">
-					<ListItemIcon>
-					</ListItemIcon>
-					<ListItemText primary="Integrations"/>
-				</ListItem>
-			</List>
+			<GroupList></GroupList>
 		</Drawer>
 		<div className={classes.appBarSpacer}/>
 	</div>);
