@@ -1,19 +1,20 @@
 import React from 'react';
-import style from './index.module.css';
 import axios from 'axios';
+import useStyles from './useStyles';
+import {Avatar} from "@material-ui/core";
 
 const UserHeader = (props) => {
-	const placeholder = 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/WPVG_icon_2016.svg/1024px-WPVG_icon_2016.svg.png';
 	const name = "xiaohang";
   const {userInfo} = props;
+	const classes = useStyles();
+	const placeholder = 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/WPVG_icon_2016.svg/1024px-WPVG_icon_2016.svg.png';
+
 	return (
 		<div>
-		<header className={style.component}>
-	    <img src={placeholder} alt={name} />
-	    <div>
-	      <h3>{userInfo.userName}</h3>
+	    <div className={classes.header}>
+				<Avatar src={placeholder}/>
+				<div className = {classes.name}>{userInfo.username}</div>
 	    </div>
-	  </header>
 		</div>
 	);
 }

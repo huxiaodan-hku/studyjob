@@ -18,7 +18,6 @@ import styles from './styles';
 import {withStyles} from "@material-ui/core/styles";
 import {useDispatch} from 'react-redux';
 import {updateJwtToken} from '../../store/sessionReducer';
-import { ACCESS_TOKEN, USER_NAME } from '../../constants';
 
 import { Redirect} from "react-router-dom";
 const Login = (props) => {
@@ -37,8 +36,8 @@ const Login = (props) => {
 				alert(response.data.responseMessage);
 			} else {
         setIsLogin(true);
-				localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
-        localStorage.setItem(USER_NAME, username);
+				localStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem("username", username);
 			}
 		}).catch(error => {
 			alert("The email or password is not correct");

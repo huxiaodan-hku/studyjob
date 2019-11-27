@@ -1,22 +1,19 @@
-import {ACCESS_TOKEN, USER_NAME} from '../../constants';
 import axios from "axios";
 import {useEffect, useState} from 'react';
 import request from '../../utils/JwtAjax';
 
 const useLoadUserInfo = () => {
 	const postData = {
-		username: localStorage.getItem(USER_NAME)
+		username: localStorage.getItem("username")
 	};
 	const [userInfo, setUserInfo] = useState({});
 	useEffect(() => {
-		if (localStorage.getItem(USER_NAME)) {
+		if (localStorage.getItem("username")) {
 			request('POST', '/userInfo', postData, (response) => {
-				setUserInfo(response.data);
+				setUserInfo({...userInfo, username:response.data.userName})
 			}, () => {});
 		}
-	}, [USER_NAME]);
+	}, []);
 	return userInfo;
 }
-export {
-  useLoadUserInfo
-};
+export {useLoadUserInfo};
