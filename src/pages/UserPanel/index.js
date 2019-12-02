@@ -24,7 +24,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CreateGroupDialog from '../../components/CreateGroupDialog';
 import TopBar from '../../components/TopBar';
 import UserHeader from '../../components/UserHeader';
-
+import {useCreateGroup} from './useCreateGroup';
 import useStyles from './styles';
 
 function UserPanel() {
@@ -32,6 +32,11 @@ function UserPanel() {
 
 	const classes = useStyles();
 	const [openDialog, setOpenDialog] = React.useState(false);
+	const [personName, setPersonName] = useState([]);
+	const [groupName, setGroupName] = useState([]);
+
+  const [groups, setGroups] = useState([]);
+	const newUser = useCreateGroup(personName, groupName, setGroups);
 	const handleClickOpen = () => {
 		setOpenDialog(true);
 	};
@@ -39,6 +44,12 @@ function UserPanel() {
 	const handleClose = () => {
 		setOpenDialog(false);
 	};
+	const handleCreate = (personName, groupName) => {
+		setPersonName(personName);
+		setGroupName(groupName);
+		setOpenDialog(false);
+	}
+
 	return (<div>
 		<CssBaseline/>
 		<TopBar/>
@@ -46,13 +57,13 @@ function UserPanel() {
 				paper: clsx(classes.drawerPaper)
 			}}>
 			<UserHeader userInfo = {userInfo}></UserHeader>
-			<GroupList></GroupList>
+			<GroupList groups={groups}></GroupList>
 		</Drawer>
 		<div className={classes.appBarSpacer}/>
 		<Button variant="outlined" color="primary" onClick={handleClickOpen}>
 			Open form dialog
 		</Button>
-		<CreateGroupDialog openDialog={openDialog} handleClose={handleClose}/>
+		<CreateGroupDialog openDialog={openDialog} handleClose={handleClose} handleCreate={handleCreate}/>
 	</div>);
 
 }
