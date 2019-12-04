@@ -57,12 +57,13 @@ function UserPanel() {
 				paper: clsx(classes.drawerPaper)
 			}}>
 			<UserHeader userInfo = {userInfo}></UserHeader>
+				<Button variant="outlined" color="primary" onClick={handleClickOpen}>
+					创建新的群组
+				</Button>
 			<GroupList groups={groups}></GroupList>
 		</Drawer>
 		<div className={classes.appBarSpacer}/>
-		<Button variant="outlined" color="primary" onClick={handleClickOpen}>
-			Open form dialog
-		</Button>
+
 		<CreateGroupDialog openDialog={openDialog} handleClose={handleClose} handleCreate={handleCreate}/>
 	</div>);
 
