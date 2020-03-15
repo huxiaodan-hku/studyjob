@@ -1,11 +1,13 @@
 import { makeStyles } from "@material-ui/core";
 
+const groupWidth = "12vw";
 const useStyles = makeStyles(theme => ({
   root:{
-	  width: '10vw',
+	  color: '#1976d2',
+	  width: groupWidth,
 	  borderRightStyle: 'solid',
 	  height: '100vh',
-	  color: 'lightgray',
+	  borderColor: 'lightgray',
 	  borderRightWidth: 2,
   },
   workspaceLabel:{
@@ -20,8 +22,20 @@ const useStyles = makeStyles(theme => ({
 	  borderColor: 'lightgray',
 	  borderBottomWidth: 2,
   },
+  groupPanel:{
+	  backgroundColor: "#009688",
+	  width: groupWidth,
+	  borderRightStyle: 'solid',
+	  height: '100vh',
+	  color: 'lightgray',
+	  borderRightWidth: 2,
+  },
   labelText: {
-	  color: 'gray',
+	  color: 'white',
+  },
+  createButton:{
+	  marginTop:16,
+	  marginLeft: 32,
   }
 }))
 

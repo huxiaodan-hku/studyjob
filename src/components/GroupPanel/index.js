@@ -31,9 +31,11 @@ const GroupPanel = props => {
 	return (
 		<div className={classes.groupPanel}>
 			<UserHeader userInfo = {userInfo}></UserHeader>
+			<div className={classes.createButton}>
 				<Button variant="outlined" color="primary" onClick={handleClickOpen}>
-				创建新的群组
+				创建新的群组 
 				</Button>
+				</div>
 			<GroupList groups={groups}></GroupList>
 			<CreateGroupDialog openDialog={openDialog} handleClose={handleClose} handleCreate={handleCreate}/>
 

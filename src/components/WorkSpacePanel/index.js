@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState}  from 'react';
 import useStyles from './useStyles';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,16 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import request from '../../utils/JwtAjax';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import useLoadWorkSpaceSearchResult from './useLoadWorkSpaceSearchResult';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const styles = theme => ({
   root: {
@@ -60,7 +70,29 @@ const WorkSpacePanel = props => {
   const handleClose = () => {
     setOpen(false);
   };
-
+  
+  const inputWorkspaceId = React.createRef();
+  const [value, setValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [cursor, setCursor] = useState(0);
+  
+  const handleCreateWorkspace = () => {
+	  alert(value);
+	  let postData = {
+		  userAccount:localStorage.getItem("username"),
+		  workspaceName:value,
+	  }
+	  request('POST', '/createWorkspace', postData, (response) => {
+	     alert(response.data.id);
+	  }, () => {});
+  }
+  
+  const changeValue = (event) => {
+	  setValue(event.target.value);
+	  setIsLoading(true);
+  }
+  const workspaceList = null;
+  //const workspaceList = useLoadWorkSpaceSearchResult(setIsLoading,value,cursor).workspaceList;
   
   return (
     <div className={classes.root}>
@@ -69,26 +101,31 @@ const WorkSpacePanel = props => {
 	  </div>
 	  <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Modal title
+          加入已有的工作空间
         </DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-            lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-            scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-            auctor fringilla.
-          </Typography>
-        </DialogContent>
+          <TextField onChange={(e) => changeValue(e)} classes = {{root:classes.inputWidth}} id="standard-basic" label="空间名称" />
+		  {isLoading ? <CircularProgress/> : 
+		  <div>
+      <Table className={classes.table} aria-label="simple table">
+        <TableBody>
+          {workspaceList && workspaceList.map(workspace => (
+            <TableRow key={workspace.id}>
+              <TableCell component="th" scope="row">
+                {workspace.name}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+		  </div>}
+		</DialogContent>
         <DialogActions>
+		  <Button autoFocus onClick={handleCreateWorkspace} color="primary">
+            新的工作空间
+          </Button>
           <Button autoFocus onClick={handleClose} color="primary">
-            Save changes
+            确认
           </Button>
         </DialogActions>
       </Dialog>

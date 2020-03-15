@@ -1,12 +1,13 @@
 import {useEffect, useState} from 'react';
 
 const useGetLoginStatus = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [login, setLogin] = useState(true);
+  const username = localStorage.getItem("username");
 	useEffect(() => {
-		if (localStorage.getItem("username")) {
-			setIsLogin(true);
+		if (!localStorage.getItem("username")) {
+			setLogin(false);
 		}
-	}, []);
-	return isLogin;
+	}, [username]);
+	return login;
 }
 export default useGetLoginStatus;

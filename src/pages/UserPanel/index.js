@@ -5,15 +5,20 @@ import GroupPanel from '../../components/GroupPanel';
 import useStyles from './styles';
 import WorkSpacePanel from '../../components/WorkSpacePanel';
 import useGetLoginStatus from '../../utils/LoginStatus';
+import MessagePanel from '../../components/MessagePanel';
+import ApplicationPanel from '../../components/ApplicationPanel';
+
 function UserPanel() {
 	const isLogin = useGetLoginStatus();
 	const userInfo = useLoadUserInfo();
 	const classes = useStyles();
 	return isLogin ? (<div className={classes.root}>
-		<WorkSpacePanel/>
+		{/*<WorkSpacePanel/>*/}
 		<GroupPanel userInfo={userInfo}/>
-		<div className={classes.appBarSpacer}/>
-	</div>) : <Redirect to = "/login"/>;
+		<MessagePanel/>
+		<ApplicationPanel/>
+		</div>
+		) : <Redirect to = "/login"/>;
 
 }
 

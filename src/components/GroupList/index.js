@@ -35,28 +35,34 @@ const GroupList = () => {
 				<ListItem button="button">
 					<ListItemIcon>
 					</ListItemIcon>
-					<ListItemText primary="Dashboard"/>
+					<ListItemText primary="计科1班"/>
 				</ListItem>
 				<ListItem button="button">
 					<ListItemIcon>
             <img className = {classes.icon} src={placeholder}/>
 					</ListItemIcon>
-					<ListItemText primary="Orders"/>
+					<ListItemText primary="计科2班"/>
 				</ListItem>
 				<ListItem button="button">
 					<ListItemIcon>
+					            <img className = {classes.icon} src={placeholder}/>
+
 					</ListItemIcon>
-					<ListItemText primary="Customers"/>
+					<ListItemText primary="计科3班"/>
 				</ListItem>
 				<ListItem button="button">
 					<ListItemIcon>
+					            <img className = {classes.icon} src={placeholder}/>
+
 					</ListItemIcon>
-					<ListItemText primary="Reports"/>
+					<ListItemText primary="计科4班"/>
 				</ListItem>
 				<ListItem button="button">
 					<ListItemIcon>
+					            <img className = {classes.icon} src={placeholder}/>
+
 					</ListItemIcon>
-					<ListItemText primary="Integrations"/>
+					<ListItemText primary="计科5班"/>
 				</ListItem>
 			</List>
 		</div>

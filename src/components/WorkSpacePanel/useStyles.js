@@ -22,6 +22,11 @@ const useStyles = makeStyles(theme => ({
   },
   labelText: {
 	  color: 'gray',
+  },
+
+  inputWidth:{
+	  width:550,
+	  marginBottom:16,
   }
 }))
 

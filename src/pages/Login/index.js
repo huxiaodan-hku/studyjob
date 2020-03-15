@@ -24,8 +24,9 @@ const Login = (props) => {
 	const {classes} = props
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [count, setCount] = useState(0);
 	const dispatch = useDispatch();
-  const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
 	const clickSignIn = () => {
 		const postData = {
 			username: username,
@@ -35,9 +36,9 @@ const Login = (props) => {
 			if (response.data.responseStatus === 'ERROR') {
 				alert(response.data.responseMessage);
 			} else {
-        setIsLogin(true);
-				localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("username", username);
+               localStorage.setItem("accessToken", response.data.accessToken);
+                localStorage.setItem("username", username);
+				window.location.href="/main";
 			}
 		}).catch(error => {
 			alert("The email or password is not correct");
@@ -59,7 +60,7 @@ const Login = (props) => {
 				<TextField onChange={event => setUsername(event.target.value)} variant="outlined" margin="normal" required="required" fullWidth="fullWidth" id="email" label="Email Address" name="email" autoComplete="email" autoFocus="autoFocus"/>
 				<TextField onChange={event => setPassword(event.target.value)} variant="outlined" margin="normal" required="required" fullWidth="fullWidth" name="password" label="Password" type="password" id="password" autoComplete="current-password"/>
 				<FormControlLabel control={<Checkbox value = "remember" color = "primary" />} label="Remember me"/>
-				<Button onClick={clickSignIn} type="submit" fullWidth="fullWidth" variant="contained" color="primary" className={classes.submit}>
+				<Button onClick={clickSignIn} fullWidth="fullWidth" variant="contained" color="primary" className={classes.submit}>
 					Sign In
 				</Button>
 				<Grid container="container">
