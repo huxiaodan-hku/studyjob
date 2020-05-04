@@ -17,9 +17,13 @@ const request = (requestMethod, url, postData, successCallBack, errorCallBack) =
 		}
 
 		axios(requestOptions).then((response) => {
-			successCallBack(response);
+			if(successCallBack){
+				successCallBack(response);
+			}
 		}).catch(error => {
-			errorCallBack(error);
+			if(errorCallBack){
+				errorCallBack(error);
+			}
 		});
 	}
 

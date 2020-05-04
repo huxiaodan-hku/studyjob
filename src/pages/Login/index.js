@@ -18,35 +18,33 @@ import styles from './styles';
 import {withStyles} from "@material-ui/core/styles";
 import {useDispatch} from 'react-redux';
 import {updateJwtToken} from '../../store/sessionReducer';
-
+import useGetLoginInfo from '../../auth/useGetLoginInfo';
 import { Redirect} from "react-router-dom";
+
 const Login = (props) => {
 	const {classes} = props
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-	const [count, setCount] = useState(0);
 	const dispatch = useDispatch();
-    const [isLogin, setIsLogin] = useState(false);
-	const clickSignIn = () => {
+	const clickSignIn = React.useCallback(()=>{
 		const postData = {
 			username: username,
 			password: password
 		}
-		axios.post("http://localhost:8080/login", postData).then((response) => {
+		axios.post("/api/login", postData).then((response) => {
 			if (response.data.responseStatus === 'ERROR') {
 				alert(response.data.responseMessage);
 			} else {
-               localStorage.setItem("accessToken", response.data.accessToken);
-                localStorage.setItem("username", username);
-				window.location.href="/main";
+				localStorage.setItem("accessToken", response.data.accessToken);
+				localStorage.setItem("username", username);
 			}
 		}).catch(error => {
 			alert("The email or password is not correct");
 		});
-	}
+	}, [username, password])
 
 	return (
-    isLogin ? <Redirect to="/main"/> :
+    localStorage.getItem("accessToken") ? <Redirect to="/main"/> :
     <Container component="main" maxWidth="xs">
 		<CssBaseline/>
 		<div className={classes.paper}>

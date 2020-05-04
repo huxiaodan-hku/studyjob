@@ -1,8 +1,11 @@
 import React from 'react';
-import style from './index.module.css';
 
 const CreateMessageInput = () => {
-	return (<input placeholder="Type a Message.."/>);
+
+	const handleKeyUp =(event) => {
+		console.log(event.key);
+	}
+	return (<input onKeyUp = {handleKeyUp} placeholder="Type a Messfsdfsdfage.."/>);
 }
 
 export default CreateMessageInput;

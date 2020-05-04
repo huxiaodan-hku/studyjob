@@ -9,16 +9,14 @@ import MessagePanel from '../../components/MessagePanel';
 import ApplicationPanel from '../../components/ApplicationPanel';
 
 function UserPanel() {
-	const isLogin = useGetLoginStatus();
-	const userInfo = useLoadUserInfo();
-	const classes = useStyles();
-	return isLogin ? (<div className={classes.root}>
-		{/*<WorkSpacePanel/>*/}
-		<GroupPanel userInfo={userInfo}/>
-		<MessagePanel/>
-		<ApplicationPanel/>
-		</div>
-		) : <Redirect to = "/login"/>;
+
+  const classes = useStyles();
+  return (localStorage.getItem("accessToken")  ? (<div className = {classes.root}>
+    <GroupPanel/>
+    <MessagePanel/>
+    <ApplicationPanel/>
+    </div>) : (<Redirect to="/login"/>)
+  );
 
 }
 

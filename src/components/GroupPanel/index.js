@@ -14,7 +14,7 @@ const GroupPanel = props => {
 	const [groups, setGroups] = useState([]);
 	const {userInfo} = props;
 
-  
+
 	const newUser = useCreateGroup(personName, groupName, setGroups);
 	const handleClickOpen = () => {
 		setOpenDialog(true);
@@ -33,7 +33,7 @@ const GroupPanel = props => {
 			<UserHeader userInfo = {userInfo}></UserHeader>
 			<div className={classes.createButton}>
 				<Button variant="outlined" color="primary" onClick={handleClickOpen}>
-				创建新的群组 
+				创建新的群组
 				</Button>
 				</div>
 			<GroupList groups={groups}></GroupList>

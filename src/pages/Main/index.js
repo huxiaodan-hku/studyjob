@@ -1,56 +1,34 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-  useRouteMatch,
-	useLocation,
-	Redirect,
-} from "react-router-dom";
-
+import React, { useEffect } from 'react';
 import Login from '../Login';
 import App from '../UserPanel';
 import SignUp from '../SignUp';
+import { useDispatch, useSelector } from 'react-redux';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
-function PrivateRoute({children, ...rest}){
-	let location = useLocation();
-	let isLogin = useSelector(state=>state.session.isLogin);
-	return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isLogin ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props => (
+        localStorage.getItem('accessToken')
+            ? <Component {...props} />
+            : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+    )} />
+)
+
 function Main() {
+  const history = createBrowserHistory();
 
   return (
-		<Router>
-		<Switch>
-			<Route exact path="/login">
-				<Login/>
-			</Route>
-      <Route exact path = "/signup">
-        <SignUp/>
-      </Route>
-			<Route path = "/main">
-				<App/>
-			</Route>
-		</Switch>
+    <Router history={history}>
+  		<Switch>
+  			<Route exact path="/login">
+  				<Login/>
+  			</Route>
+        <Route exact path = "/signup">
+          <SignUp/>
+        </Route>
+        <PrivateRoute exact path="/main" component={App} />
+        <Redirect from="*" to="/main" />
+  		</Switch>
 		</Router>
   );
 }
