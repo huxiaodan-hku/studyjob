@@ -2,19 +2,17 @@ import React from 'react';
 import axios from 'axios';
 import useStyles from './useStyles';
 import {Avatar} from "@material-ui/core";
-
-const UserHeader = (props) => {
-  const {userInfo} = props;
+import useLoadUserInfo from '../../auth/useLoadUserInfo';
+const UserHeader = () => {
 	const classes = useStyles();
-	const placeholder = 'https://static.fzdm.com/manhua/img/2.jpg'
+  const userInfo = useLoadUserInfo();
 	return (
 		<div>
 	    <div className={classes.header}>
-				<Avatar src={placeholder}/>
-				{/*<div className = {classes.name}>{userInfo.username}</div>*/}
-				<div className = {classes.name}>{"xiaohang"}</div>
+				<Avatar src={userInfo.userAvatar}/>
+				<div className = {classes.name}>{userInfo.lastName + " " + userInfo.firstName}</div>
 
-				
+
 	    </div>
 		</div>
 	);

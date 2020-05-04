@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 	 flexDirection: 'column',
  },
  messageWindow:{
-	 
+
 	 maxHeight: 850,
 	 overflowY: 'scroll',
 	 height:'80vh',
@@ -40,9 +40,19 @@ const useStyles = makeStyles(theme => ({
 	 borderBottom:1,
 	 borderBottomStyle:'solid',
 	 borderBottomColor:'lightgray',
+ },
+ paperRoot:{
+	 padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+ },
+ component1:{
+	 width: '100%',
+	 display: 'flex',
+	 flexDirection: 'column',
  }
 
- 
+
 }));
 
 export default useStyles;

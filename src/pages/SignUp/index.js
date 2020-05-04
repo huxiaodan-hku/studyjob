@@ -32,7 +32,7 @@ const SignUp = (props) => {
 			username: email,
 			password: password
 		}
-		axios.post("http://localhost:8080/register", postData)
+		axios.post("/api/register", postData)
 		.then((response) => {
 			setIsSignUpSuccess(true);
 		}).catch(error => {
@@ -40,7 +40,7 @@ const SignUp = (props) => {
     });
 	}
   return (
-		isSignUpSuccess ? <Redirect to="/login"/> : 
+		isSignUpSuccess ? <Redirect to="/login"/> :
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>

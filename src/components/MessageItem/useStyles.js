@@ -23,8 +23,14 @@ const useStyles = makeStyles(theme => ({
  content:{
 	 marginTop:4,
 	 fontSize:12,
+ },
+ postDate:{
+   color: 'darkcyan',
+   fontSize: 12,
+   marginLeft:16,
+   lineHeight: 3.6,
  }
- 
+
 }));
 
 export default useStyles;

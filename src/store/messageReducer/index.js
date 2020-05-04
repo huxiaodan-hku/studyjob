@@ -4,24 +4,34 @@ const INITIAL_VALUE = {
 
 const messageReducer = (state = INITIAL_VALUE, action) => {
 	switch (action.type) {
-		case 'ADD_MESSAGE':
-		  var newMessage = [];
-			newMessage.push(state.messages);
-			newMessage.push(action.data);
+		case 'INIT_MESSAGE':
 			return {
 				...state,
-				messages: newMessage
+				messages: action.data,
+			};
+		case 'ADD_MESSAGE':
+		  var arr = []
+			arr.push(...state.messages);
+			arr.push(action.data);
+			return {
+				...state,
+				messages: arr
 			};
 		default:
 		  return state;
 	}
 }
 
-const addMessage = (message) => {
+const addMessages = (message) => {
 	return {type: 'ADD_MESSAGE', data: message};
+}
+const initMessages = (messages) => {
+	return {type: 'INIT_MESSAGE', data: messages};
+
 }
 
 export {
 	messageReducer,
-	addMessage,
+	addMessages,
+	initMessages,
 };
