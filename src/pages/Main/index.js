@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Login from '../Login';
+import Test from '../Test';
 import App from '../UserPanel';
 import SignUp from '../SignUp';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +21,9 @@ function Main() {
   return (
     <Router history={history}>
   		<Switch>
+        <Route exact path = "/test">
+          <Test/>
+        </Route>
   			<Route exact path="/login">
   				<Login/>
   			</Route>

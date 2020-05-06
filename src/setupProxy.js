@@ -9,12 +9,12 @@ module.exports = function (app) {
       "^/api": "/api"
     }
   })),
-  app.use(createProxyMiddleware('/oauth2', {
+  app.use(createProxyMiddleware('/chat', {
     target: 'http://127.0.0.1:8080',
     secure: false,
     changeOrigin: true,
     pathRewrite: {
-      "^/oauth2": "/oauth2"
+      "^/chat": "/chat"
     }
   }))
 }
