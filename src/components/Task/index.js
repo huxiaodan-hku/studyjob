@@ -20,7 +20,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from './useStyles';
 
 const Task = (props) => {
-  const {url, title, imgUrl, userName} = props;
+  const {taskItem, imgUrl, taskDec, taskName, taskDetail, postName, posterName,postTime} = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -39,22 +39,20 @@ const Task = (props) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={userName+ "发布了新的任务:" +title}
-        subheader="September 14, 2016"
+        title={posterName+ "发布了新的任务:" +taskName}
+        subheader={postTime}
       />
 
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          请同学们尽快阅读完算法导论。
+          {taskDec}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        <Typography variant="body2" color="textSecondary" component="p" className={classes.detail}>
+		{" 详情"}
+        </Typography>
+
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -69,15 +67,7 @@ const Task = (props) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
-            算法导论下载地址
-          </Typography>
-		  <Link>			https://github.com/mymmsc/books/blob/master/%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA%E4%B8%AD%E6%96%87%E7%89%88.pdf
-</Link>
-          <Typography paragraph>
-            下节课将讲解此部分内容。
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
+            {taskDetail}
           </Typography>
         </CardContent>
       </Collapse>

@@ -17,6 +17,7 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 import useStyles from './useStyles';
+import request from '../../utils/JwtAjax';
 
 const CreateTaskDialog = (props) => {
   const {open, handleClose} = props;
@@ -53,8 +54,10 @@ const CreateTaskDialog = (props) => {
     }
   };
   const handleSubmit = () => {
+    const userIds = personId.map((user)=>{return user.userId});
+    console.log(userIds);
     const postData={
-      userIds: personId,
+      userIds: userIds,
       taskName: taskName,
       taskDec: taskDec,
       taskDetail: taskDetail,
@@ -70,7 +73,7 @@ const CreateTaskDialog = (props) => {
     <DialogTitle id="form-dialog-title">创建新任务</DialogTitle>
     <DialogContent>
       <TextField onChange={(event) =>setTaskName(event.target.value)} autoFocus="autoFocus" margin="dense" id="name" label="任务名称" fullWidth="fullWidth" variant="outlined"/>
-      <TextField onChange={(event) =>setTaskDetail(event.target.value)} margin="dense" id="name" label="任务描述" fullWidth="fullWidth" multiline="multiline" rows={4} variant="outlined"/>
+      <TextField onChange={(event) =>setTaskDec(event.target.value)} margin="dense" id="name" label="任务描述" fullWidth="fullWidth" multiline="multiline" rows={4} variant="outlined"/>
       <TextField onChange={(event) =>setTaskDetail(event.target.value)} margin="dense" id="name" label="详情" fullWidth="fullWidth" multiline="multiline" rows={4} variant="outlined"/>
         <FormControl fullWidth="fullWidth" className={classes.formControl}>
 

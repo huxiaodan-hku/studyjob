@@ -15,33 +15,82 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Link from '@material-ui/core/Link';
-
+import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from './useStyles';
+import MenuItem from '@material-ui/core/MenuItem';
+import useLoadFinishState from "./useLoadFinishState";
+import request from '../../utils/JwtAjax';
+import {useSelector} from 'react-redux';
 
 const ThumbTask = (props) => {
-  const {url, title, imgUrl, userName} = props;
+  const {taskItem, imgUrl, taskDec, taskName, taskDetail, postName, posterName,postTime, messageId} = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const groupId = useSelector(state => state.group.groupId);
+  const initFinished = useLoadFinishState(messageId, groupId);
+  const handleClick = event => {
+		setAnchorEl(event.currentTarget);
+	};
+  const handleClose = () => {
+		setAnchorEl(null);
+	};
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  const finishTask = () => {
+    const postData = {
+      messageId: messageId,
+      groupId:groupId,
+    }
+    request('POST', '/api/finishTask', postData, (response) => {
+
+    }, () => {});
+  }
+
+  const cancelFinishTask = (event) => {
+    const messageId = event.target.value;
+    const postData = {
+      messageId: messageId,
+      groupId:groupId,
+    }
+    request('POST', '/api/cancelFinishTask', postData, (response) => {
+
+    }, () => {});
+  }
 
   return (
-    <Card className={classes.root} variant="outlined">
+    <Card  className={classes.root} variant="outlined">
       <CardHeader
-        title={title}
-        subheader="September 14, 2016"
+        avatar={
+            <Avatar variant={"square"} src={imgUrl}/>
+        }
+        action={
+          <>
+          <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+    				<MoreVertIcon/>
+    			</IconButton>
+    			{!initFinished && <Menu id="simple-menu" anchorEl={anchorEl} keepMounted="keepMounted" open={Boolean(anchorEl)} onClose={handleClose}>
+    				<MenuItem key={messageId} onClick={finishTask}>{"标记已完成"}</MenuItem>
+    			</Menu>}
+          {initFinished && <Menu id="simple-menu" anchorEl={anchorEl} keepMounted="keepMounted" open={Boolean(anchorEl)} onClose={handleClose}>
+    				<MenuItem key={messageId} onClick={cancelFinishTask}>{"标记未完成"}</MenuItem>
+    			</Menu>}
+          </>
+        }
+        title={posterName+ "发布了新的任务:" +taskName}
+        subheader={postTime}
       />
+
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          请同学们尽快阅读完算法导论。
+          {taskDec}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <Typography variant="body2" color="textSecondary" component="p" className={classes.detail}>
-		{" 详情"}
+    {" 详情"}
         </Typography>
 
         <IconButton
@@ -58,15 +107,7 @@ const ThumbTask = (props) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
-            算法导论下载地址
-          </Typography>
-		  <Link>			https://github.com/mymmsc/books/blob/master/%E7%AE%97%E6%B3%95%E5%AF%BC%E8%AE%BA%E4%B8%AD%E6%96%87%E7%89%88.pdf
-</Link>
-          <Typography paragraph>
-            下节课将讲解此部分内容。
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
+            {taskDetail}
           </Typography>
         </CardContent>
       </Collapse>

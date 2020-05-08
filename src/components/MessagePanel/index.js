@@ -51,7 +51,7 @@ const MessagePanel = (props) => {
     initStomp.connect({}, function(frame) {
       console.log('Connected: ' + frame);
       //订阅message topic
-      initStomp.subscribe('/topic/messagese' + groupId, (message) => {
+      initStomp.subscribe('/topic/messages' + groupId, (message) => {
         messageReceived(message);
       });
     });
@@ -64,8 +64,8 @@ const MessagePanel = (props) => {
       request('POST', '/api/getMessages', postData, (response) => {
         dispatch(initMessages(response.data));
       }, (error) => {
-        if (error.repsonse.status === 401) {
-          localStorage.remove(ACCESS_TOKEN);
+        if (!error || !error.repsonse || error.repsonse.status === 401) {
+          localStorage.removeItem(ACCESS_TOKEN);
         }
       });
     }

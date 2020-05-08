@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 	  marginRight:8,
 	  minWidth:100,
 	  fontSize:16,
-	  lineHeight:2.5,  
+	  lineHeight:2.5,
   },
    bar:{
 	 display:'flex',
@@ -33,7 +33,14 @@ const useStyles = makeStyles(theme => ({
  },
  label:{
 	 marginLeft: 14,
- }
+ },
+ tabPanel:{
+   overflowY: 'scroll',
+   height:'80vh',
+ },
+ demo1: {
+    backgroundColor: theme.palette.background.paper,
+  },
 }))
 
 export default useStyles;

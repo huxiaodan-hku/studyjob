@@ -18,6 +18,9 @@ const useStyles = makeStyles(theme => ({
   },
   icon:{
     marginTop:3,
+  },
+  listItem:{
+    marginRight:8,
   }
 
 

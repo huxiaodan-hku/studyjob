@@ -54,8 +54,7 @@ const GroupList = () => {
     <Collapse in={open} timeout="auto" unmountOnExit="unmountOnExit">
       <List component="div" disablePadding="disablePadding">
         {groups.map(item=>{
-          return (<ListItem id-index={item.groupId} onClick={handleClickGroup} button="button">
-            <ListItemIcon></ListItemIcon>
+          return (<ListItem className={classes.listItem}id-index={item.groupId} onClick={handleClickGroup} button="button">
             <ListItemText primary={item.groupName}/>
           </ListItem>)
         })}
