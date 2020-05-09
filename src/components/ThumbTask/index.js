@@ -22,7 +22,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import useLoadFinishState from "./useLoadFinishState";
 import request from '../../utils/JwtAjax';
 import {useSelector} from 'react-redux';
-
+import useLoadFinishedUsers from './useLoadFinishedUsers';
+import useLoadUnFinishedUsers from './useLoadUnFinishedUsers';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 const ThumbTask = (props) => {
   const {taskItem, imgUrl, taskDec, taskName, taskDetail, postName, posterName,postTime, messageId} = props;
   const classes = useStyles();
@@ -30,6 +36,9 @@ const ThumbTask = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const groupId = useSelector(state => state.group.groupId);
   const initFinished = useLoadFinishState(messageId, groupId);
+  const finishedUsers = useLoadFinishedUsers(messageId, groupId);
+  const unFinishedUsers = useLoadUnFinishedUsers(messageId, groupId);
+
   const handleClick = event => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -108,6 +117,36 @@ const ThumbTask = (props) => {
         <CardContent>
           <Typography paragraph>
             {taskDetail}
+          </Typography>
+          <Typography paragraph>
+            {"已完成用户"}
+            {finishedUsers.map((user)=>{
+              return (
+                <ListItem alignItems="flex-start">
+       <ListItemAvatar>
+         <Avatar alt="Cindy Baker" src={user.userAvatar} />
+       </ListItemAvatar>
+       <ListItemText
+         primary={user.lastName + " "+ user.firstName}
+       />
+     </ListItem>
+              )
+            })}
+          </Typography>
+          <Typography paragraph>
+            {"未完成用户"}
+            {unFinishedUsers.map((user)=>{
+              return (
+                <ListItem alignItems="flex-start">
+       <ListItemAvatar>
+         <Avatar alt="Cindy Baker" src={user.userAvatar} />
+       </ListItemAvatar>
+       <ListItemText
+         primary={user.lastName + " "+ user.firstName}
+       />
+     </ListItem>
+              )
+            })}
           </Typography>
         </CardContent>
       </Collapse>

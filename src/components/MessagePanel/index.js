@@ -113,22 +113,6 @@ const MessagePanel = (props) => {
   return (<div className={classes.root}>
     <div className={classes.bar}></div>
     <div className={classes.messageWindow} ref={ref}>
-      <Task imgUrl={"https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2020/01/21/realtime/7364985.jpg&s=Y&x=0&y=18&sw=1239&sh=826"
-} userName={"张老师"} url={"https://www.linuxidc.com/upload/2015_05/150520100638201.jpg"} title="算法导论p100-p102" deadline="2020-04-10" assignees={"肖航",
-        "张泽",
-        "李俊",
-        "李想",
-        "陆雨涵"}/> {/*
-
-        <MessageItem key={111} name={"张老师"} content={"大家在课余的时间阅读算法导论p100-p102， 任务已经发布"} url={"https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2020/01/21/realtime/7364985.jpg&s=Y&x=0&y=18&sw=1239&sh=826"
-      }/>
-        <MessageItem key={222}content={"好的，收到"} name={"肖航"} url={"https://api.time.com/wp-content/uploads/2016/01/time-100-2016-steph-curry.jpg?quality=85&w=407"}/>
-
-        <MessageItem key={333}content={"好的，收到"} name={"张泽"} url={"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/mv5bztnmoge1zmqtyjzmyy00mdhklthkzjytnzkyzdyxnta5zte0xkeyxkfqcgdeqxvynjg2njqwmdqat-v1-sy739-cr0-0-1776-739-al-1557325382.jpg?crop=0.502xw:1.00xh;0.280xw,0&resize=640:*"}/>
-
-        */
-      }
-
       {getMessages()}
     </div>
     <div className={classes.messageInputArea}>

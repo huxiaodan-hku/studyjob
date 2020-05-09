@@ -54,6 +54,8 @@ const CreateTaskDialog = (props) => {
     }
   };
   const handleSubmit = () => {
+    handleClose();
+    alert("发布成功");
     const userIds = personId.map((user)=>{return user.userId});
     console.log(userIds);
     const postData={
@@ -63,7 +65,9 @@ const CreateTaskDialog = (props) => {
       taskDetail: taskDetail,
       groupId: groupId
     }
-    request('POST', '/api/createTask', postData, null, null);
+    request('POST', '/api/createTask', postData, ()=>{
+
+    }, null);
   }
   const getRenderText = (selected) => {
     const items = selected.map((item)=>{return item.firstName+" "+item.lastName});

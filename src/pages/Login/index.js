@@ -25,6 +25,7 @@ const Login = (props) => {
 	const {classes} = props
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [isLogin, setLogin] = useState(false);
 	const dispatch = useDispatch();
 	const clickSignIn = React.useCallback(()=>{
 		const postData = {
@@ -35,16 +36,17 @@ const Login = (props) => {
 			if (response.data.responseStatus === 'ERROR') {
 				alert(response.data.responseMessage);
 			} else {
+				setLogin(true);
 				localStorage.setItem("accessToken", response.data.accessToken);
 				localStorage.setItem("username", username);
 			}
 		}).catch(error => {
-			alert("The email or password is not correct");
+			console.log("The email or password is not correct");
 		});
 	}, [username, password])
 
 	return (
-    localStorage.getItem("accessToken") ? <Redirect to="/main"/> :
+    (localStorage.getItem("accessToken") || isLogin) ? <Redirect to="/main"/> :
     <Container component="main" maxWidth="xs">
 		<CssBaseline/>
 		<div className={classes.paper}>
