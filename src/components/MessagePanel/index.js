@@ -23,115 +23,150 @@ import useWebSocket from 'react-use-websocket';
 import SockJS from "sockjs-client"
 import Stomp from "stompjs"
 import CreateTaskDialog from "../CreateTaskDialog";
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ImageDialog from '../ImageDialog';
 const MessagePanel = (props) => {
 
-  const inputRef = React.useRef(null);
-  const [textValue, setTextValue] = React.useState("");
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const groupId = useSelector(state => state.group.groupId);
-  const messages = useSelector(state => state.messages.messages);
-  const placeholder = 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/WPVG_icon_2016.svg/1024px-WPVG_icon_2016.svg.png';
-  const [stompClient, setStompClient] = React.useState(null);
-  const [isDialogOpen, setDialogOpen] = React.useState(false);
-  const handleChange = (event) => {
-    setTextValue(event.target.value);
-  }
+	const inputRef = React.useRef(null);
+	const [textValue, setTextValue] = React.useState("");
+	const classes = useStyles();
+	const dispatch = useDispatch();
+	const groupId = useSelector(state => state.group.groupId);
+	const messages = useSelector(state => state.messages.messages);
+	const placeholder = 'https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/WPVG_icon_2016.svg/1024px-WPVG_icon_2016.svg.png';
+	const [stompClient, setStompClient] = React.useState(null);
+	const [isDialogOpen, setDialogOpen] = React.useState(false);
+  const [isImageDialogOpen, setImageDialogOpen] = React.useState(false);
 
-  const messageReceived = (playload) => {
-    ref.current.scrollIntoView({behavior: "auto", block: "end"})
-    dispatch(addMessages(JSON.parse(playload.body)));
-  }
-  const url = "http://localhost:8080/chat";
-  //connect the websocket server
-  React.useEffect(() => {
-    const socket = new SockJS(url);
-    const initStomp = Stomp.over(socket);
-    setStompClient(initStomp);
-    initStomp.connect({}, function(frame) {
-      console.log('Connected: ' + frame);
-      //订阅message topic
-      initStomp.subscribe('/topic/messages' + groupId, (message) => {
-        messageReceived(message);
-      });
-    });
-  }, [url])
-  React.useEffect(() => {
-    const postData = {
-      groupId: groupId
-    };
-    if (groupId) {
-      request('POST', '/api/getMessages', postData, (response) => {
-        dispatch(initMessages(response.data));
-      }, (error) => {
-        if (!error || !error.repsonse || error.repsonse.status === 401) {
-          localStorage.removeItem(ACCESS_TOKEN);
-        }
-      });
-    }
-  }, [groupId]);
+	const handleChange = (event) => {
+		setTextValue(event.target.value);
+	}
 
-  React.useEffect(() => {
-    ref.current.scrollTop = ref.current.scrollHeight;
-  }, [messages])
+	const messageReceived = (playload) => {
+		ref.current.scrollIntoView({behavior: "auto", block: "end"})
+		dispatch(addMessages(JSON.parse(playload.body)));
+	}
+	const url = "http://localhost:8080/chat";
+	//connect the websocket server
+	React.useEffect(() => {
+		const socket = new SockJS(url);
+		const initStomp = Stomp.over(socket);
+		setStompClient(initStomp);
+		initStomp.connect({}, function(frame) {
+			console.log('Connected: ' + frame);
+			//订阅message topic
+			initStomp.subscribe('/topic/messages' + groupId, (message) => {
+				messageReceived(message);
+			});
+		});
+	}, [url])
+	React.useEffect(() => {
+		const postData = {
+			groupId: groupId
+		};
+		if (groupId) {
+			request('POST', '/api/getMessages', postData, (response) => {
+				dispatch(initMessages(response.data));
+			}, (error) => {
+				if (!error || !error.repsonse || error.repsonse.status === 401) {
+					localStorage.removeItem(ACCESS_TOKEN);
+				}
+			});
+		}
+	}, [groupId]);
 
-  const addTask = (e) => {
-    e.preventDefault();
-    setDialogOpen(true);
-  }
+	React.useEffect(() => {
+		ref.current.scrollTop = ref.current.scrollHeight;
+	}, [messages])
 
-  const ref = React.useRef(null);
-  const postMessage = (textValue) => {
-    const postData = {
-      type: 0,
-      text: textValue,
-      groupId: groupId
-    }
-    request('POST', '/api/postMessage', postData, null, null);
-    // stompClient.send("/app/chat", {},
-    // 							JSON.stringify(postData));
-  }
-  const handleKeyUp = (event) => {
-    if (event.key === 'Enter') {
-      setTextValue("");
-      postMessage(textValue);
-    }
-  }
-  const getMessages = () => {
-    var res = [];
-    // oldMessages.push(newMessages);
-    messages.map((item) => {
-      res.push(<MessageItem item={item}/>);
-    })
-    return res;
-  }
+	const addTask = (e) => {
+		e.preventDefault();
+		setDialogOpen(true);
+	}
 
-  const handleClose = () => {
-    setDialogOpen(false);
-  }
+	const ref = React.useRef(null);
+	const postMessage = (textValue) => {
+		const postData = {
+			type: 0,
+			text: textValue,
+			groupId: groupId
+		}
+		request('POST', '/api/postMessage', postData, null, null);
+		// stompClient.send("/app/chat", {},
+		// 							JSON.stringify(postData));
+	}
+	const handleKeyUp = (event) => {
+		if (event.key === 'Enter') {
+			setTextValue("");
+			postMessage(textValue);
+		}
+	}
+	const getMessages = () => {
+		var res = [];
+		// oldMessages.push(newMessages);
+		messages.map((item) => {
+			res.push(<MessageItem item={item}/>);
+		})
+		return res;
+	}
 
-  return (<div className={classes.root}>
-    <div className={classes.bar}></div>
-    <div className={classes.messageWindow} ref={ref}>
-      {getMessages()}
-    </div>
-    <div className={classes.messageInputArea}>
-      <Paper component="form" className={classes.paperRoot}>
-        <div className={classes.component1}>
-          <TextField ref={inputRef} value={textValue} onChange={handleChange} onKeyUp={handleKeyUp} fullWidth={true} id="filled-multiline-static" label="Input Message" multiline={true} rows="4" variant="outlined"/>
-          <div className={classes.hint}>
-            {"Return to add a new line, Shift + Return to send a message"}
-          </div>
-        </div>
-        <IconButton type="submit" className={classes.iconButton} aria-label="search">
-          <AddCircleOutlineIcon onClick={addTask}/>
-        </IconButton>
-        <Divider className={classes.divider} orientation="vertical"/>
-      </Paper>
+	const handleClose = () => {
+		setDialogOpen(false);
+	}
 
-    </div>
-    <CreateTaskDialog open={isDialogOpen} handleClose={handleClose}/>
-  </div>);
+  const handleImageClose = () => {
+		setImageDialogOpen(false);
+	}
+
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const postImage = () => {
+    setImageDialogOpen(true);
+  };
+
+	const handleClickMenu = (event) => {
+    event.preventDefault();
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleMenuClose = () => {
+		setAnchorEl(null);
+	};
+
+	return (<div className={classes.root}>
+		<div className={classes.bar}></div>
+		<div className={classes.messageWindow} ref={ref}>
+			{getMessages()}
+		</div>
+		<div className={classes.messageInputArea}>
+			<Paper component="form" className={classes.paperRoot}>
+				<div className={classes.component1}>
+					<TextField ref={inputRef} value={textValue} onChange={handleChange} onKeyUp={handleKeyUp} fullWidth={true} id="filled-multiline-static" label="Input Message" multiline={true} rows="4" variant="outlined"/>
+					<div className={classes.hint}>
+						{"Return to add a new line, Shift + Return to send a message"}
+					</div>
+				</div>
+				<IconButton type="submit" className={classes.iconButton} aria-label="search">
+					<AddCircleOutlineIcon onClick={handleClickMenu}/>
+				</IconButton>
+				<Divider className={classes.divider} orientation="vertical"/>
+			</Paper>
+
+		</div>
+		<CreateTaskDialog open={isDialogOpen} handleClose={handleClose}/>
+    <ImageDialog open={isImageDialogOpen} handleClose={handleImageClose}/>
+		<Menu
+			id="simple-menu"
+      anchorEl={anchorEl}
+			keepMounted
+      open={Boolean(anchorEl)}
+			onClose={handleMenuClose}
+			>
+			<MenuItem onClick={addTask}>发布任务</MenuItem>
+			<MenuItem onClick={postImage}>发布图片</MenuItem>
+		</Menu>
+
+	</div>);
 }
 
 export default MessagePanel;
